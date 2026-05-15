@@ -1,5 +1,6 @@
-const pexelsImage = (id) =>
-  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=900&h=700&fit=crop`;
+function pexelsImage(id) {
+  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=900&h=700&fit=crop`;
+}
 
 const services = [
   {
@@ -219,8 +220,26 @@ function money(value) {
   return `$${value.toFixed(2)}`;
 }
 
-function getService(id = selectedServiceId) {
-  return services.find((service) => service.id === id) || services[0];
+function getService(id) {
+  const targetId = id || selectedServiceId;
+
+  for (let index = 0; index < services.length; index += 1) {
+    if (services[index].id === targetId) {
+      return services[index];
+    }
+  }
+
+  return services[0];
+}
+
+function forEachNode(nodeList, callback) {
+  Array.prototype.forEach.call(nodeList, callback);
+}
+
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }
 
 function renderCategories() {
@@ -286,7 +305,7 @@ function renderServices() {
     )
     .join("");
 
-  serviceList.querySelectorAll("img").forEach((image) => {
+  forEachNode(serviceList.querySelectorAll("img"), (image) => {
     image.addEventListener("error", () => {
       image.src = fallbackImage;
     });
@@ -364,7 +383,6 @@ function renderDates() {
   const currentYear = viewMonth.getFullYear();
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const availableSet = new Set(availableDateIds);
   const cells = [];
 
   monthLabel.textContent = monthFormatter.format(viewMonth);
@@ -376,7 +394,7 @@ function renderDates() {
   for (let day = 1; day <= daysInMonth; day += 1) {
     const date = new Date(currentYear, currentMonth, day);
     const id = dateId(date);
-    const isAvailable = availableSet.has(id);
+    const isAvailable = availableDateIds.indexOf(id) !== -1;
     const isSelected = id === selectedDate;
 
     cells.push(`
@@ -537,7 +555,8 @@ function renderBookingSummary(data) {
     fragment.append(term, detail);
   });
 
-  bookingSummary.replaceChildren(fragment);
+  clearElement(bookingSummary);
+  bookingSummary.appendChild(fragment);
 }
 
 function submitBooking() {
@@ -568,7 +587,11 @@ function submitBooking() {
     requestedAt: new Date().toISOString()
   };
 
-  localStorage.setItem("vitaDripLastBooking", JSON.stringify(bookingRecord));
+  try {
+    localStorage.setItem("vitaDripLastBooking", JSON.stringify(bookingRecord));
+  } catch (error) {
+    // Ignore storage failures in restricted mobile browsers.
+  }
 
   successSummary.textContent = `${data.name}, your ${data.service.name} request is ready for ${data.date} at ${data.time}. Send it to admin on WhatsApp so the lounge can confirm availability.`;
   renderBookingSummary(data);
@@ -582,7 +605,7 @@ function resetBooking() {
   bookingForm.reset();
   bookingForm.hidden = false;
   bookingSuccess.hidden = true;
-  bookingSummary.replaceChildren();
+  clearElement(bookingSummary);
   activeStep = 0;
   selectedDate = "";
   selectedTime = "";
@@ -657,7 +680,7 @@ timeGrid.addEventListener("click", (event) => {
   renderTimes();
 });
 
-document.querySelectorAll(".step").forEach((step) => {
+forEachNode(document.querySelectorAll(".step"), (step) => {
   step.addEventListener("click", () => {
     const requestedStep = Number(step.dataset.step);
 

@@ -70,6 +70,7 @@ button {
   padding: 14px clamp(18px, 4vw, 58px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.55);
   background: rgba(255, 253, 248, 0.86);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   box-shadow: 0 8px 30px rgba(37, 49, 43, 0.06);
 }
@@ -213,6 +214,7 @@ button {
 
 .hero {
   position: relative;
+  min-height: 82vh;
   min-height: 82svh;
   padding: clamp(62px, 9vw, 110px) clamp(18px, 4vw, 58px) 54px;
   overflow: hidden;
