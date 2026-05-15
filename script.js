@@ -184,6 +184,8 @@ const services = [
 const categories = ["All", "IV Therapy", "Glow Drips", "Supplements", "Skincare"];
 const fallbackImage = pexelsImage(34939756);
 const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" });
+const weekdayFormatter = new Intl.DateTimeFormat(undefined, { weekday: "short" });
+const shortDayFormatter = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
 const businessEmail = "bookings@vitadriplounge.com";
 const adminWhatsAppNumber = "263771828667";
 
@@ -215,6 +217,7 @@ const nextStep = document.querySelector("#nextStep");
 const backStep = document.querySelector("#backStep");
 const formMessage = document.querySelector("#formMessage");
 const newBooking = document.querySelector("#newBooking");
+const hasCalendarChrome = Boolean(monthLabel && prevMonth && nextMonth);
 
 function money(value) {
   return `$${value.toFixed(2)}`;
@@ -379,6 +382,11 @@ function syncAvailableDates() {
 }
 
 function renderDates() {
+  if (!hasCalendarChrome) {
+    renderDateChips();
+    return;
+  }
+
   const currentMonth = viewMonth.getMonth();
   const currentYear = viewMonth.getFullYear();
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
@@ -413,7 +421,34 @@ function renderDates() {
   dateGrid.innerHTML = cells.join("");
 }
 
+function renderDateChips() {
+  const dates = generateAvailableDates().slice(0, 9);
+
+  dateGrid.innerHTML = dates
+    .map((date) => {
+      const id = dateId(date);
+      const isSelected = id === selectedDate;
+
+      return `
+        <button
+          class="option-chip ${isSelected ? "is-selected" : ""}"
+          type="button"
+          data-date="${id}"
+          aria-pressed="${isSelected}"
+        >
+          ${weekdayFormatter.format(date)}
+          <small>${shortDayFormatter.format(date)}</small>
+        </button>
+      `;
+    })
+    .join("");
+}
+
 function updateMonthNavigation() {
+  if (!hasCalendarChrome) {
+    return;
+  }
+
   const availableMonths = availableDateIds.map((id) => {
     const date = dateFromId(id);
     return date.getFullYear() * 12 + date.getMonth();
@@ -656,21 +691,23 @@ dateGrid.addEventListener("click", (event) => {
   updateMonthNavigation();
 });
 
-prevMonth.addEventListener("click", () => {
-  if (prevMonth.disabled) return;
+if (hasCalendarChrome) {
+  prevMonth.addEventListener("click", () => {
+    if (prevMonth.disabled) return;
 
-  viewMonth = shiftMonth(viewMonth, -1);
-  renderDates();
-  updateMonthNavigation();
-});
+    viewMonth = shiftMonth(viewMonth, -1);
+    renderDates();
+    updateMonthNavigation();
+  });
 
-nextMonth.addEventListener("click", () => {
-  if (nextMonth.disabled) return;
+  nextMonth.addEventListener("click", () => {
+    if (nextMonth.disabled) return;
 
-  viewMonth = shiftMonth(viewMonth, 1);
-  renderDates();
-  updateMonthNavigation();
-});
+    viewMonth = shiftMonth(viewMonth, 1);
+    renderDates();
+    updateMonthNavigation();
+  });
+}
 
 timeGrid.addEventListener("click", (event) => {
   const button = event.target.closest("[data-time]");
