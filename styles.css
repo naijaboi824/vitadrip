@@ -1266,10 +1266,13 @@ details p {
 }
 
 @media (max-width: 980px) {
-  .hero-grid,
   .split-section,
   .info-section {
     grid-template-columns: 1fr;
+  }
+
+  .hero-grid {
+    display: block;
   }
 
   .testimonial-grid {
@@ -1278,10 +1281,13 @@ details p {
 
   .hero-copy {
     padding-top: 12px;
+    max-width: none;
   }
 
   .booking-panel {
+    width: 100%;
     max-width: 620px;
+    margin-top: 24px;
   }
 
   .service-toolbar {
@@ -1303,9 +1309,12 @@ details p {
 
 @media (max-width: 760px) {
   .site-header {
+    position: relative;
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 12px;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .main-nav {
@@ -1324,6 +1333,9 @@ details p {
   .hero {
     min-height: auto;
     padding-top: 42px;
+    overflow: visible;
+    background-color: #162420;
+    background-position: center top;
   }
 
   .hero h1 {
