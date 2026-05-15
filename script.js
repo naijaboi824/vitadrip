@@ -182,8 +182,7 @@ const services = [
 
 const categories = ["All", "IV Therapy", "Glow Drips", "Supplements", "Skincare"];
 const fallbackImage = pexelsImage(34939756);
-const dateFormatter = new Intl.DateTimeFormat(undefined, { weekday: "short" });
-const dayFormatter = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
+const monthFormatter = new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" });
 const businessEmail = "bookings@vitadriplounge.com";
 const adminWhatsAppNumber = "263771828667";
 
@@ -193,11 +192,16 @@ let activeStep = 0;
 let selectedServiceId = "hydration-drip";
 let selectedDate = "";
 let selectedTime = "";
+let availableDateIds = [];
+let viewMonth = startOfMonth(new Date());
 
 const categoryTabs = document.querySelector("#categoryTabs");
 const serviceList = document.querySelector("#serviceList");
 const serviceSearch = document.querySelector("#serviceSearch");
 const selectedService = document.querySelector("#selectedService");
+const monthLabel = document.querySelector("#monthLabel");
+const prevMonth = document.querySelector("#prevMonth");
+const nextMonth = document.querySelector("#nextMonth");
 const dateGrid = document.querySelector("#dateGrid");
 const timeGrid = document.querySelector("#timeGrid");
 const bookingForm = document.querySelector("#bookingForm");
@@ -303,12 +307,35 @@ function renderSelectedService() {
   `;
 }
 
-function generateDates() {
+function dateId(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function dateFromId(id) {
+  const [year, month, day] = id.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function startOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
+function shiftMonth(date, delta) {
+  return new Date(date.getFullYear(), date.getMonth() + delta, 1);
+}
+
+function generateAvailableDates() {
   const dates = [];
   const today = new Date();
+  const totalDays = 60;
 
-  for (let offset = 0; dates.length < 9 && offset < 18; offset += 1) {
+  for (let offset = 0; offset < totalDays; offset += 1) {
     const date = new Date(today);
+    date.setHours(0, 0, 0, 0);
     date.setDate(today.getDate() + offset);
 
     if (date.getDay() !== 0) {
@@ -319,38 +346,73 @@ function generateDates() {
   return dates;
 }
 
-function dateId(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+function syncAvailableDates() {
+  const dates = generateAvailableDates();
+  availableDateIds = dates.map((date) => dateId(date));
 
-  return `${year}-${month}-${day}`;
+  if (!selectedDate || !availableDateIds.includes(selectedDate)) {
+    selectedDate = availableDateIds[0] || "";
+  }
+
+  if (selectedDate) {
+    viewMonth = startOfMonth(dateFromId(selectedDate));
+  }
 }
 
 function renderDates() {
-  const dates = generateDates();
+  const currentMonth = viewMonth.getMonth();
+  const currentYear = viewMonth.getFullYear();
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const availableSet = new Set(availableDateIds);
+  const cells = [];
 
-  if (!selectedDate) {
-    selectedDate = dateId(dates[0]);
+  monthLabel.textContent = monthFormatter.format(viewMonth);
+
+  for (let index = 0; index < firstDay; index += 1) {
+    cells.push('<span class="calendar-pad" aria-hidden="true"></span>');
   }
 
-  dateGrid.innerHTML = dates
-    .map((date) => {
-      const id = dateId(date);
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const date = new Date(currentYear, currentMonth, day);
+    const id = dateId(date);
+    const isAvailable = availableSet.has(id);
+    const isSelected = id === selectedDate;
 
-      return `
-        <button
-          class="option-chip ${id === selectedDate ? "is-selected" : ""}"
-          type="button"
-          data-date="${id}"
-          aria-pressed="${id === selectedDate}"
-        >
-          ${dateFormatter.format(date)}
-          <small>${dayFormatter.format(date)}</small>
-        </button>
-      `;
-    })
-    .join("");
+    cells.push(`
+      <button
+        class="calendar-date ${isAvailable ? "" : "is-unavailable"} ${isSelected ? "is-selected" : ""}"
+        type="button"
+        data-date="${isAvailable ? id : ""}"
+        aria-pressed="${isSelected}"
+        ${isAvailable ? "" : "disabled"}
+      >
+        ${day}
+      </button>
+    `);
+  }
+
+  dateGrid.innerHTML = cells.join("");
+}
+
+function updateMonthNavigation() {
+  const availableMonths = availableDateIds.map((id) => {
+    const date = dateFromId(id);
+    return date.getFullYear() * 12 + date.getMonth();
+  });
+
+  if (!availableMonths.length) {
+    prevMonth.disabled = true;
+    nextMonth.disabled = true;
+    return;
+  }
+
+  const minMonth = Math.min(...availableMonths);
+  const maxMonth = Math.max(...availableMonths);
+  const currentMonth = viewMonth.getFullYear() * 12 + viewMonth.getMonth();
+
+  prevMonth.disabled = currentMonth <= minMonth;
+  nextMonth.disabled = currentMonth >= maxMonth;
 }
 
 function getTimeSlots() {
@@ -563,9 +625,28 @@ serviceSearch.addEventListener("input", (event) => {
 dateGrid.addEventListener("click", (event) => {
   const button = event.target.closest("[data-date]");
   if (!button) return;
+  if (!button.dataset.date) return;
 
   selectedDate = button.dataset.date;
+  viewMonth = startOfMonth(dateFromId(selectedDate));
   renderDates();
+  updateMonthNavigation();
+});
+
+prevMonth.addEventListener("click", () => {
+  if (prevMonth.disabled) return;
+
+  viewMonth = shiftMonth(viewMonth, -1);
+  renderDates();
+  updateMonthNavigation();
+});
+
+nextMonth.addEventListener("click", () => {
+  if (nextMonth.disabled) return;
+
+  viewMonth = shiftMonth(viewMonth, 1);
+  renderDates();
+  updateMonthNavigation();
 });
 
 timeGrid.addEventListener("click", (event) => {
@@ -615,6 +696,8 @@ newBooking.addEventListener("click", resetBooking);
 renderCategories();
 renderServices();
 renderSelectedService();
+syncAvailableDates();
 renderDates();
+updateMonthNavigation();
 renderTimes();
 syncStep();

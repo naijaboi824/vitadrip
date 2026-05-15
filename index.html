@@ -95,7 +95,25 @@
                 <h3 id="stage-time">Date and time</h3>
                 <div class="field-group">
                   <span class="field-label">Date</span>
-                  <div class="option-grid date-grid" id="dateGrid"></div>
+                  <div class="calendar-shell" aria-label="Booking date picker">
+                    <div class="calendar-head">
+                      <h4 class="calendar-month" id="monthLabel" aria-live="polite"></h4>
+                      <div class="calendar-nav" aria-label="Calendar month navigation">
+                        <button class="calendar-arrow" id="prevMonth" type="button" aria-label="Previous month">&#8249;</button>
+                        <button class="calendar-arrow" id="nextMonth" type="button" aria-label="Next month">&#8250;</button>
+                      </div>
+                    </div>
+                    <div class="calendar-weekdays" aria-hidden="true">
+                      <span>S</span>
+                      <span>M</span>
+                      <span>T</span>
+                      <span>W</span>
+                      <span>T</span>
+                      <span>F</span>
+                      <span>S</span>
+                    </div>
+                    <div class="date-grid" id="dateGrid"></div>
+                  </div>
                 </div>
                 <div class="field-group">
                   <span class="field-label">Time</span>
