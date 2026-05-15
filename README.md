@@ -2,6 +2,10 @@
 
 Static online booking website for Vita-Drip Lounge.
 
+Live site: https://naijaboi824.github.io/vitadrip/
+
+Repository: https://github.com/naijaboi824/vitadrip
+
 ## Files
 
 - `index.html` - page structure and booking sections

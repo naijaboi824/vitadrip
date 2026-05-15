@@ -1,3 +1,6 @@
+const pexelsImage = (id) =>
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=900&h=700&fit=crop`;
+
 const services = [
   {
     id: "hydration-drip",
@@ -5,7 +8,7 @@ const services = [
     name: "Hydration Drip",
     price: 30,
     duration: "45 min",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(23532633),
     description:
       "Delivers fluids, vitamins, and minerals directly into the bloodstream to support rapid absorption, rehydration, energy, skin, and recovery.",
     tags: ["Hydration", "Recovery", "Energy"]
@@ -16,7 +19,7 @@ const services = [
     name: "Vitamin C / Multi Vits",
     price: 30,
     duration: "45 min",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(4663898),
     description:
       "Essential vitamins including vitamin C, B vitamins, magnesium, and calcium for immune support, energy, nutrient replenishment, and hydration.",
     tags: ["Immune support", "Nutrients", "Hydration"]
@@ -27,7 +30,7 @@ const services = [
     name: "Hangover Drip",
     price: 30,
     duration: "45 min",
-    image: "https://images.unsplash.com/photo-1576765607924-749547a0e5a5?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(11091976),
     description:
       "Fluids, electrolytes, vitamins, magnesium, and nausea support designed to help relieve dehydration, nausea, and headache symptoms.",
     tags: ["Electrolytes", "Relief", "Recovery"]
@@ -38,7 +41,7 @@ const services = [
     name: "Detox Shots",
     price: 30,
     duration: "25 min",
-    image: "https://images.unsplash.com/photo-1584515933487-779824d29309?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(10048151),
     description:
       "A detox support appointment for clients seeking energy, clearer skin, better digestion, circulation, sleep, nutrient absorption, and overall wellbeing.",
     tags: ["Detox", "Wellbeing", "Shots"]
@@ -49,7 +52,7 @@ const services = [
     name: "Collagen Shots",
     price: 30,
     duration: "20 min",
-    image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(6475101),
     description:
       "Pure protein support for skin elasticity, fine lines, joint health, hair and nail strength, and a healthier beauty routine.",
     tags: ["Collagen", "Skin support", "Shots"]
@@ -60,7 +63,7 @@ const services = [
     name: "Pure Radiance",
     price: 50,
     duration: "35 min",
-    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(34939756),
     description:
       "A brightening skincare formula created to target dullness and dark spots while supporting a smoother, even-toned, luminous appearance.",
     tags: ["Brightening", "Even tone", "Radiance"]
@@ -71,7 +74,7 @@ const services = [
     name: "Glow Getter",
     price: 60,
     duration: "40 min",
-    image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(35101526),
     description:
       "A lightweight brightening formula for daily-use glow goals, created to fade dark marks, even skin tone, and boost natural radiance.",
     tags: ["Glow", "Daily care", "All skin types"]
@@ -82,7 +85,7 @@ const services = [
     name: "Glutathione Ultra",
     price: 80,
     duration: "50 min",
-    image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(5240657),
     description:
       "Helps refresh dull skin and support a smoother, clearer, naturally lighter-looking complexion with a lightweight, fast-absorbing formula.",
     tags: ["Glutathione", "Complexion", "Brightening"]
@@ -93,7 +96,7 @@ const services = [
     name: "Beauty Juice",
     price: 100,
     duration: "60 min",
-    image: "https://images.unsplash.com/photo-1611078489935-0cb964de46d6?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(8181550),
     description:
       "A daily glow booster that helps brighten and lighten dull-looking skin for a smoother, more even-toned look from the inside out.",
     tags: ["Glow booster", "Even tone", "Beauty drip"]
@@ -104,7 +107,7 @@ const services = [
     name: "Glutathione Supreme",
     price: 110,
     duration: "60 min",
-    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(16675161),
     description:
       "A powerful brightening and lightening formula that helps fade dark marks, even out skin tone, and leave skin looking fresh and radiant.",
     tags: ["Gentle", "Glow boosting", "Brightening"]
@@ -115,7 +118,7 @@ const services = [
     name: "Glutathione Maxi White",
     price: 120,
     duration: "75 min",
-    image: "https://images.unsplash.com/photo-1620917669809-1af0497965de?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(11081177),
     description:
       "An ultimate glow booster made to visibly brighten the look of skin for a smoother, clearer, more even-toned appearance.",
     tags: ["Maxi glow", "Bright look", "Even tone"]
@@ -126,7 +129,7 @@ const services = [
     name: "White Doll Supplement",
     price: 65,
     duration: "15 min",
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(7883496),
     description:
       "A premium beauty blend supporting a brighter, clearer-looking complexion while keeping skin smooth, hydrated, and youthful.",
     tags: ["Supplement", "Hydration", "Glow care"]
@@ -137,7 +140,7 @@ const services = [
     name: "Youth Quake Set",
     price: 70,
     duration: "20 min pickup",
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(9126914),
     description:
       "A skincare set for a smoother, clearer, radiant look. Includes body scrub for a full glow routine.",
     tags: ["Set", "Body scrub", "Radiance"]
@@ -148,7 +151,7 @@ const services = [
     name: "Lotion 500ml",
     price: 30,
     duration: "15 min pickup",
-    image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(18996279),
     description:
       "A soft daily body lotion from the Youth Quake line, ideal for a smooth and hydrated skincare routine.",
     tags: ["Lotion", "500ml", "Daily care"]
@@ -159,7 +162,7 @@ const services = [
     name: "Face Cream 50ml",
     price: 20,
     duration: "15 min pickup",
-    image: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(6690857),
     description:
       "Targets dark marks and uneven tone for a soft finish. Lightweight, fast absorbing, and gentle.",
     tags: ["Face cream", "Dark spots", "Gentle"]
@@ -170,7 +173,7 @@ const services = [
     name: "Knuckle Set",
     price: 50,
     duration: "20 min pickup",
-    image: "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=900&q=80",
+    image: pexelsImage(3762875),
     description:
       "A targeted care set for dark knuckles. Exfoliates, brightens, and smooths with consistent use.",
     tags: ["Knuckle care", "Exfoliating", "Brightening"]
@@ -178,7 +181,7 @@ const services = [
 ];
 
 const categories = ["All", "IV Therapy", "Glow Drips", "Supplements", "Skincare"];
-const fallbackImage = "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80";
+const fallbackImage = pexelsImage(34939756);
 const dateFormatter = new Intl.DateTimeFormat(undefined, { weekday: "short" });
 const dayFormatter = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
 const businessEmail = "bookings@vitadriplounge.com";
