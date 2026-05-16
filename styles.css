@@ -686,18 +686,20 @@ button {
 }
 
 .ecocash-button {
-  width: 100%;
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 170px;
+  margin: 10px auto 0;
   border-color: rgba(56, 95, 76, 0.2);
   background: #fff;
-  padding: 10px;
+  padding: 5px;
 }
 
 .ecocash-button img {
   display: block;
-  width: 100%;
-  max-width: 320px;
-  height: auto;
+  width: 72px;
+  height: 46px;
   margin: 0 auto;
   border-radius: 6px;
 }
@@ -1253,6 +1255,11 @@ details p {
   font-size: 20px;
   font-weight: 900;
   line-height: 1;
+}
+
+.social-letter-gh {
+  font-size: 12px;
+  letter-spacing: 0.2px;
 }
 
 .social-links a:hover,
