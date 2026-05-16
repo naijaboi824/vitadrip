@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="110" viewBox="0 0 360 110" role="img" aria-label="Pay On EcoCash">
+  <rect width="360" height="110" fill="#f3f4f6"/>
+  <text x="84" y="68" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" fill="#2a62d6">Pay On</text>
+  <text x="185" y="68" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" fill="#1954a6">Eco</text>
+  <text x="258" y="68" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" fill="#e92e3a">Cash</text>
+</svg>

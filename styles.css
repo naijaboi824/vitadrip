@@ -688,6 +688,18 @@ button {
 .ecocash-button {
   width: 100%;
   margin-top: 10px;
+  border-color: rgba(56, 95, 76, 0.2);
+  background: #fff;
+  padding: 10px;
+}
+
+.ecocash-button img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 6px;
 }
 
 .form-message {
