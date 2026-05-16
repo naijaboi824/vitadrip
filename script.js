@@ -819,8 +819,6 @@ bookingFeePaid.addEventListener("change", () => {
 // Handle confirmation modal close button
 confirmationOkButton.addEventListener("click", () => {
   confirmationModal.hidden = true;
-  bookingSuccess.hidden = true;
-  resetBooking();
 });
 
 renderCategories();
