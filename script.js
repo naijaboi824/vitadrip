@@ -220,6 +220,10 @@ const newBooking = document.querySelector("#newBooking");
 const bookingFeePanel = document.querySelector("#bookingFeePanel");
 const ecocashButton = document.querySelector("#ecocashButton");
 const bookingFeePaid = document.querySelector("#bookingFeePaid");
+const transactionIdLabel = document.querySelector("#transactionIdLabel");
+const transactionIdInput = document.querySelector("#transactionId");
+const confirmationModal = document.querySelector("#confirmationModal");
+const confirmationOkButton = document.querySelector("#confirmationOkButton");
 const hasCalendarChrome = Boolean(monthLabel && prevMonth && nextMonth);
 
 function money(value) {
@@ -573,6 +577,7 @@ function getBookingLines(data) {
     `Phone: ${data.phone}`,
     `Email: ${data.email}`,
     `Notes: ${data.notes || "None"}`,
+    `EcoCash Transaction ID: ${data.transactionId || "Not provided"}`,
     "Booking fee: $10.00 paid via EcoCash to Guidance Granger (non-refundable; deducted from service amount)"
   ];
 }
@@ -596,6 +601,7 @@ function renderBookingSummary(data) {
     ["Service", data.service.name],
     ["Slot", `${data.date} at ${data.time}`],
     ["Booking fee", "$10.00 paid via EcoCash (Guidance Granger)"],
+    ["EcoCash Transaction ID", data.transactionId || "Not provided"],
     ["Name", data.name],
     ["Phone", data.phone],
     ["Email", data.email],
@@ -631,7 +637,8 @@ function submitBooking() {
     name: document.querySelector("#clientName").value.trim(),
     phone: document.querySelector("#clientPhone").value.trim(),
     email: document.querySelector("#clientEmail").value.trim(),
-    notes: document.querySelector("#bookingNotes").value.trim()
+    notes: document.querySelector("#bookingNotes").value.trim(),
+    transactionId: transactionIdInput.value.trim()
   };
 
   const bookingRecord = {
@@ -642,6 +649,7 @@ function submitBooking() {
     phone: data.phone,
     email: data.email,
     notes: data.notes,
+    transactionId: data.transactionId,
     adminWhatsAppNumber,
     requestedAt: new Date().toISOString()
   };
@@ -658,12 +666,20 @@ function submitBooking() {
   emailBookingLink.href = buildEmailHref(data);
   bookingForm.hidden = true;
   bookingSuccess.hidden = false;
+  
+  // Show confirmation modal
+  setTimeout(() => {
+    confirmationModal.hidden = false;
+  }, 500);
 }
 
 function resetBooking() {
   bookingForm.reset();
   bookingForm.hidden = false;
   bookingSuccess.hidden = true;
+  confirmationModal.hidden = true;
+  transactionIdInput.value = "";
+  transactionIdLabel.hidden = true;
   clearElement(bookingSummary);
   activeStep = 0;
   selectedDate = "";
@@ -791,6 +807,21 @@ nextStep.addEventListener("click", () => {
 });
 
 newBooking.addEventListener("click", resetBooking);
+
+// Handle EcoCash transaction ID input visibility
+bookingFeePaid.addEventListener("change", () => {
+  transactionIdLabel.hidden = !bookingFeePaid.checked;
+  if (!bookingFeePaid.checked) {
+    transactionIdInput.value = "";
+  }
+});
+
+// Handle confirmation modal close button
+confirmationOkButton.addEventListener("click", () => {
+  confirmationModal.hidden = true;
+  bookingSuccess.hidden = true;
+  resetBooking();
+});
 
 renderCategories();
 renderServices();

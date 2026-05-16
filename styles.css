@@ -1580,3 +1580,81 @@ details p {
     padding: 7px 4px;
   }
 }
+
+.confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.confirmation-modal[hidden] {
+  display: none !important;
+}
+
+.confirmation-modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 30px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+.confirmation-modal-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.success-checkmark {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage-dark), var(--teal));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.confirmation-modal-content h2 {
+  margin: 20px 0 10px;
+  font-size: 24px;
+  color: var(--sage-dark);
+  font-family: var(--serif);
+  font-weight: 700;
+}
+
+.confirmation-modal-content p {
+  margin: 12px 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.confirmation-modal-content .button {
+  margin-top: 25px;
+  width: 100%;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

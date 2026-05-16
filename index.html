@@ -160,6 +160,10 @@
                     <input id="bookingFeePaid" name="bookingFeePaid" type="checkbox" required>
                     <span>I have paid the $10.00 EcoCash booking fee to Guidance Granger.</span>
                   </label>
+                  <label id="transactionIdLabel" class="field" hidden>
+                    <span>EcoCash Transaction ID</span>
+                    <input id="transactionId" name="transactionId" type="text" placeholder="Enter your transaction ID" required>
+                  </label>
                 </section>
               </section>
 
@@ -424,6 +428,18 @@
         <a href="#top">Back to top</a>
       </div>
     </footer>
+
+    <div id="confirmationModal" class="confirmation-modal" hidden>
+      <div class="confirmation-modal-content">
+        <div class="confirmation-modal-header">
+          <span class="success-checkmark" aria-hidden="true">✓</span>
+        </div>
+        <h2>All Set!</h2>
+        <p>Your booking is confirmed.</p>
+        <p>You will receive email and WhatsApp updates with all the details.</p>
+        <button class="button button-primary" id="confirmationOkButton" type="button">Got it</button>
+      </div>
+    </div>
 
     <script src="script.js?v=20260515-2"></script>
   </body>
