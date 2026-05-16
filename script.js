@@ -217,6 +217,9 @@ const nextStep = document.querySelector("#nextStep");
 const backStep = document.querySelector("#backStep");
 const formMessage = document.querySelector("#formMessage");
 const newBooking = document.querySelector("#newBooking");
+const bookingFeePanel = document.querySelector("#bookingFeePanel");
+const ecocashButton = document.querySelector("#ecocashButton");
+const bookingFeePaid = document.querySelector("#bookingFeePaid");
 const hasCalendarChrome = Boolean(monthLabel && prevMonth && nextMonth);
 
 function money(value) {
@@ -243,6 +246,21 @@ function clearElement(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
+}
+
+function hasCompletedClientDetails() {
+  const name = document.querySelector("#clientName").value.trim();
+  const phone = document.querySelector("#clientPhone").value.trim();
+  const email = document.querySelector("#clientEmail").value.trim();
+  const consentGiven = document.querySelector("#bookingConsent").checked;
+
+  return Boolean(name && phone && email && consentGiven);
+}
+
+function syncBookingFeePanel() {
+  if (!bookingFeePanel) return;
+
+  bookingFeePanel.hidden = !hasCompletedClientDetails();
 }
 
 function renderCategories() {
@@ -531,6 +549,10 @@ function canAdvance() {
     return Boolean(selectedDate && selectedTime);
   }
 
+  if (activeStep === 2) {
+    return hasCompletedClientDetails() && bookingFeePaid && bookingFeePaid.checked;
+  }
+
   return true;
 }
 
@@ -550,7 +572,8 @@ function getBookingLines(data) {
     `Name: ${data.name}`,
     `Phone: ${data.phone}`,
     `Email: ${data.email}`,
-    `Notes: ${data.notes || "None"}`
+    `Notes: ${data.notes || "None"}`,
+    "Booking fee: $10.00 paid via EcoCash to Guidance Granger (non-refundable; deducted from service amount)"
   ];
 }
 
@@ -572,6 +595,7 @@ function renderBookingSummary(data) {
   const rows = [
     ["Service", data.service.name],
     ["Slot", `${data.date} at ${data.time}`],
+    ["Booking fee", "$10.00 paid via EcoCash (Guidance Granger)"],
     ["Name", data.name],
     ["Phone", data.phone],
     ["Email", data.email],
@@ -628,7 +652,7 @@ function submitBooking() {
     // Ignore storage failures in restricted mobile browsers.
   }
 
-  successSummary.textContent = `${data.name}, your ${data.service.name} request is ready for ${data.date} at ${data.time}. Send it to admin on WhatsApp so the lounge can confirm availability.`;
+  successSummary.textContent = `${data.name}, your ${data.service.name} request is ready for ${data.date} at ${data.time}. Your $10.00 EcoCash booking fee is non-refundable and will be deducted from your service amount.`;
   renderBookingSummary(data);
   whatsappBookingLink.href = buildWhatsAppHref(data);
   emailBookingLink.href = buildEmailHref(data);
@@ -644,6 +668,7 @@ function resetBooking() {
   activeStep = 0;
   selectedDate = "";
   selectedTime = "";
+  syncBookingFeePanel();
   renderDates();
   renderTimes();
   syncStep();
@@ -679,6 +704,20 @@ serviceSearch.addEventListener("input", (event) => {
   searchQuery = event.target.value;
   renderServices();
 });
+
+forEachNode(
+  bookingForm.querySelectorAll("#clientName, #clientPhone, #clientEmail, #bookingConsent"),
+  (field) => {
+    field.addEventListener("input", syncBookingFeePanel);
+    field.addEventListener("change", syncBookingFeePanel);
+  }
+);
+
+if (ecocashButton) {
+  ecocashButton.addEventListener("click", () => {
+    window.location.href = "tel:*153*1*1*0777882429*10%23";
+  });
+}
 
 dateGrid.addEventListener("click", (event) => {
   const button = event.target.closest("[data-date]");
@@ -760,4 +799,5 @@ syncAvailableDates();
 renderDates();
 updateMonthNavigation();
 renderTimes();
+syncBookingFeePanel();
 syncStep();

@@ -143,6 +143,24 @@
                   <input id="bookingConsent" name="bookingConsent" type="checkbox" required>
                   <span>I agree that Vita-Drip Lounge may review my request before confirming the appointment.</span>
                 </label>
+
+                <section class="booking-fee-panel" id="bookingFeePanel" hidden aria-labelledby="booking-fee-title">
+                  <h4 id="booking-fee-title">Booking fee: $10.00</h4>
+                  <p>
+                    Pay the booking fee with EcoCash before confirmation. This $10.00 is
+                    non-refundable and will be deducted from your final service amount.
+                  </p>
+                  <p>
+                    Recipient name: <strong>Guidance Granger</strong>
+                  </p>
+                  <button class="button button-primary ecocash-button" id="ecocashButton" type="button">
+                    Pay with EcoCash ($10)
+                  </button>
+                  <label class="consent">
+                    <input id="bookingFeePaid" name="bookingFeePaid" type="checkbox" required>
+                    <span>I have paid the $10.00 EcoCash booking fee to Guidance Granger.</span>
+                  </label>
+                </section>
               </section>
 
               <p class="form-message" id="formMessage" role="alert" aria-live="polite"></p>
